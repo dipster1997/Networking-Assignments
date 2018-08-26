@@ -1,7 +1,3 @@
-
-
-
-
 // Author: Dipy
 
 import java.io.File;
