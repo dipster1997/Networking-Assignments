@@ -8,8 +8,10 @@ Bob uses his RSA private key to decrypt and get the session key.
 
 OBJECTIVE
 Bob.java is complete and given to you. Your task in this assignment is to complete the given
-skeleton program Alice.java so that Alice can (1) successfully generate and send session
-key to Bob, (2) receive all the messages from Bob, decrypt and save them to a file. The file Alice
+skeleton program Alice.java so that Alice can 
+(1) successfully generate and send session
+key to Bob, 
+(2) receive all the messages from Bob, decrypt and save them to a file. The file Alice
 generates must be identical to the confidential document Bob keeps.
 
 RUNNING THE FILES
