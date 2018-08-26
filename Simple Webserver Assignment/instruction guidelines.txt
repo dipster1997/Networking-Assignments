@@ -1,0 +1,5 @@
+Implement a simple web server that is able to setup a simple static web page
+To run the program, simply type the following in any CLI with the file present in the same directory -
+java Webserver <portnumber>               (where port number is any number you assign it)
+
+your Server will implement HTTP 1.1 and HTTP 1.0

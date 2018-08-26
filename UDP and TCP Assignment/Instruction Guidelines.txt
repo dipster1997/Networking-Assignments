@@ -1,0 +1,39 @@
+In this assignment, you will create a simple one-way chat1 that sends messages and transmits files over the UDP protocol on top of an unreliable channel that may either corrupt or drop packets randomly (but will always deliver packets in order).
+
+OVERALL ARCHITECTURE
+There are three programs in this assignment, Alice, UnreliNET and Bob. 
+The Alice and Bob programs implement a one-way chat application over UDP protocol,primarily Alice is sending and Bob is receiving.
+The UnreliNET program simulates the transmission channel that randomly corrupts or loses packets. However, for simplicity, you can assume that this channel always delivers packets in order.
+
+The UnreliNET program acts as a proxy between Alice and Bob. Instead of sending packets directly to Bob, Alice sends all packets to UnreliNET. UnreliNET may introduce bit errors to packets or lose packets randomly. It then forwards packets (if not lost) to Bob. When receiving feedback packets from Bob, UnreliNET may also corrupt them or lose them with certain probability before relaying them to Alice.
+The UnreliNET program is complete and given. Your task in this assignment is to develop the Alice and Bob programs so that Bob will receive chat messages and files successfully in the presence of packet corruption and packet loss.
+
+The description of each class and how to run it is detailed in each of the 3 files.
+
+
+Running All Three Programs
+You should first launch Bob, followed by UnreliNET in the second window. Finally, launch Alice in a third window to start data transmission. Please note that Alice and Bob take the ports (<unreliNetPort> and <rcvPort>, respectively) as command-line argument as described above. Please always test your programs on localhost to avoid the interference of network traffic on your programs.
+The UnreliNET program simulates unreliable communication network and runs infinitely. Once launched, you may reuse it in consecutive tests. To manually terminate it, press <Ctrl> + c.
+The Alice and Bob programs should not communicate with each other directly – all traffic has to go through the UnreliNET program. Alice should terminate once all input is read and properly forwarded (i.e. the input stream is closed and everything in the input stream is successfully received by Bob). However, you may leave the Bob program running infinitely (i.e., no need for Bob to detect end of transmission and terminate).
+
+
+Self-defined Header/Trailer Fields at Application Layer
+UDP transmission is unreliable. To detect packet corruption or packet loss, you may need to implement reliability checking and recovery mechanisms at the application layer. The following header/trailer fields might be needed (but you might also implement different ones):
+ Sequence number
+ Checksum
+ Some way to differentiate between binary data (files) and chat messages.
+Note that each packet Alice sends should contain at most 512 bytes of application data (inclusive of user-defined header/trailer fields), or UnreliNET will reject it.
+
+
+Computing Checksum
+To detect bit errors, Alice should compute checksum for every outgoing packet and embed it in the packet. Bob needs to re-compute checksum to verify the integrity of a received packet.
+
+
+Timer and Timeout Value
+Alice may have to maintain a timer for unacknowledged packet. You are suggested to use the setSoTimeout() method of Java DatagramSocket class.
+You should use a timeout value of 100ms.
+
+
+Reading/Writing Values to Header/Trailer Fields
+The number of application layer header/trailer fields and the sequence of their appearance in a packet is the agreement between Alice and Bob (i.e. an application layer protocol designed by you).
+You may use ByteBuffer class from the java.nio package to form a packet containing various header/trailer and application message.
