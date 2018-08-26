@@ -12,32 +12,9 @@ skeleton program Alice.java so that Alice can (1) successfully generate and send
 key to Bob, (2) receive all the messages from Bob, decrypt and save them to a file. The file Alice
 generates must be identical to the confidential document Bob keeps.
 
-RUNNING BOB
-The Bob.java program is complete and should not be changed. To run it, type:
-java Bob <BobPort>
-For example:
-java Bob 9000
-listens at port 9000 and waits for Alice to connect.
-Upon startup, Bob will read his RSA public and private keys from the files public.key and
-private.key stored in the same directory as Bob.java.
-Bob runs a TCP server. Once connected by Alice, Bob first receives an encrypted session key
-from Alice and decrypts it with his RSA private key. He then sends the file docs.txt line by
-line to Alice, each line encrypted with the session key.
-
-RUNNING ALICE
-run Alice, type command:
-java Alice <BobIP> <BobPort>
-For example:
-java Alice sunfire.comp.nus.edu.sg 9000
-connects to Bob running on sunfire.comp.nus.edu.sg at port 9000.
-Upon startup, Alice will read Bob’s RSA public key from the file public.key stored in the
-same directory as Alice.java.
-Alice runs a TCP client. When connected to Bob, Alice generates an AES key, encrypts it with
-Bob’s public key and sends it Bob. She then receives multiple encrypted messages from Bob,
-decrypts and saves them to the file msgs.txt in the same directory as Alice.java.
-Note that Bob’s RSA public and private keys remain unchanged across sessions. However, each
-time Alice.java launches, a new AES session key should be generated and sent to Bob.
-Furthermore, Bob.java and Alice.java should be placed in two different directories.
+RUNNING THE FILES
+First open Bob and read how the file is run.
+Then open ALice and read how the file is run.
 
 
 USEFUL CLASSES
