@@ -1,0 +1,68 @@
+SYNOPSIS
+Bob wants to send a confidential document to Alice. Here is how they will do it.
+1. Alice keeps a copy of Bob’s RSA public key. She generates an AES session key and
+encrypts it with Bob’s public key. Alice then sends this encrypted session key to Bob.
+Bob uses his RSA private key to decrypt and get the session key.
+2. Bob sends the confidential document (a text file) to Alice over TCP 
+3. Alice receives the encrypted messages, decrypts them and saves the plaintext to a file.
+
+OBJECTIVE
+Bob.java is complete and given to you. Your task in this assignment is to complete the given
+skeleton program Alice.java so that Alice can (1) successfully generate and send session
+key to Bob, (2) receive all the messages from Bob, decrypt and save them to a file. The file Alice
+generates must be identical to the confidential document Bob keeps.
+
+RUNNING BOB
+The Bob.java program is complete and should not be changed. To run it, type:
+java Bob <BobPort>
+For example:
+java Bob 9000
+listens at port 9000 and waits for Alice to connect.
+Upon startup, Bob will read his RSA public and private keys from the files public.key and
+private.key stored in the same directory as Bob.java.
+Bob runs a TCP server. Once connected by Alice, Bob first receives an encrypted session key
+from Alice and decrypts it with his RSA private key. He then sends the file docs.txt line by
+line to Alice, each line encrypted with the session key.
+
+RUNNING ALICE
+run Alice, type command:
+java Alice <BobIP> <BobPort>
+For example:
+java Alice sunfire.comp.nus.edu.sg 9000
+connects to Bob running on sunfire.comp.nus.edu.sg at port 9000.
+Upon startup, Alice will read Bob’s RSA public key from the file public.key stored in the
+same directory as Alice.java.
+Alice runs a TCP client. When connected to Bob, Alice generates an AES key, encrypts it with
+Bob’s public key and sends it Bob. She then receives multiple encrypted messages from Bob,
+decrypts and saves them to the file msgs.txt in the same directory as Alice.java.
+Note that Bob’s RSA public and private keys remain unchanged across sessions. However, each
+time Alice.java launches, a new AES session key should be generated and sent to Bob.
+Furthermore, Bob.java and Alice.java should be placed in two different directories.
+
+
+USEFUL CLASSES
+Java Cipher class provides the functionality of a cryptographic cipher for encryption and
+decryption. It forms the core of the Java Cryptographic Extension (JCE) framework. A Cipher
+object needs to be initialized to ENCRYPT_MODE or DECRYPT_MODE before respective
+operations. Encryption algorithms such as RSA, DES and AES are supported (there is no need to
+study the feedback mode and padding scheme of these algorithms).
+You will find two txt files in the “bob” folder. If you use Windows, please replace docs.txt
+with docs_windows.txt.
+Windows uses a different newline (“\r\n”) compared to all other platform (“\n”). If you do
+not use docs_windows.txt, your received messages might not be equivalent to the ones sent
+by Bob due to different newline encodings.
+If you use any other operating system than Windows, please use the original file.
+During grading we will remove all “\r” characters, thus it does not matter which newline
+encoding you use.
+Bob encapsulates (and encrypts) messages as Java SealedObjects before transmission. 
+SealedObjects are containers which encrypt and decrypt their contents (objects) with the 
+help from a Cipher object. The reason we use SealedObjects is that it is very easy to transmit 
+objects over TCP. An alternative approach is to transmit byte arrays over TCP (e.g., doFinal method of 
+the Cipher class actually returns an encrypted message as a byte array). However, we will
+stick to SealedObject in this assignment.
+To generate an AES key, Alice should use KeyGenerator class to generate an AES SecretKey object. 
+Alice also encapsulates AES key as a SealedObject before sending it to Bob. However, sealing an AES 
+SecretKey object with RSA presents a problem because RSA algorithm imposes a size restriction on the
+object being encrypted (typically 117 bytes). An AES SecretKey object is too large for RSA encryption. 
+The way out is to use RSA to seal the “encoded form” of an AES Key object (encoded form can be retrieved 
+using getEncoded method of SecretKey class). Bob will restore AES Key object from the received c
