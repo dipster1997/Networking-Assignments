@@ -1,4 +1,4 @@
-In this assignment, you will create a simple one-way chat1 that sends messages and transmits files over the UDP protocol on top of an unreliable channel that may either corrupt or drop packets randomly (but will always deliver packets in order).
+The job here is to create a simple one-way chat that sends messages and transmits files over the UDP protocol on top of an unreliable channel that may either corrupt or drop packets randomly (but will always deliver packets in order).
 
 OVERALL ARCHITECTURE
 There are three programs in this assignment, Alice, UnreliNET and Bob. 
