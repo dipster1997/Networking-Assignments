@@ -1,4 +1,4 @@
-# Networking Projects
+# Networking Project
 This project got me involved with understadning Network Architecture and Protocols and using problem solving skills to set up the following 3:-
 
 1. A simple web server that is able to setup a simple static web page
